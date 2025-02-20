@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scholarship Application Toolkit</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f8f9fa;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: #2c3e50;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    .container {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+    .main-content {
+      background: white;
+      padding: 35px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .ad-section {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      padding: 25px;
+      background: #f8f9fa;
+    }
+    .ad-placeholder {
+      width: 300px;
+      height: 250px;
+      background: #f1f3f5;
+      border: 2px dashed #dee2e6;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #868e96;
+    }
+    .tab-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 1rem 2rem;
+      border: none;
+      background: #e9ecef;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    .tab-btn.active {
+      background: #2c3e50;
+      color: white;
+    }
+    .form-section {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.8rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.6rem;
+      color: #212529;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: border-color 0.3s;
+    }
+    .btn {
+      background: #2c3e50;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+    .btn:hover {
+      background: #364c63;
+      transform: translateY(-1px);
+    }
+    .footer {
+      background: #212529;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .entry-group {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+    pre.preview {
+      background: #f8f9fa;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+    @media (max-width: 768px) {
+      .ad-section {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>Scholarships Toolkit</h1>
+    <p>CV, SOP & Scholarship Essay Generator</p>
+  </header>
+
+  <div class="container">
+    <div class="main-content">
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('cv', this)">CV Generator</button>
+        <button class="tab-btn" onclick="switchTab('sop', this)">SOP Generator</button>
+        <button class="tab-btn" onclick="switchTab('scholarship', this)">Scholarship Essay</button>
+      </div>
+
+      <!-- CV Generator Tab -->
+      <div id="cv-tab" class="tab-content active">
+        <h2>Academic CV Generator</h2>
+        <div class="form-group">
+          <label for="cvName">Full Name</label>
+          <input type="text" id="cvName" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label for="cvContact">Contact Information</label>
+          <input type="text" id="cvContact" placeholder="Address, phone, email">
+        </div>
+        <h3>Education</h3>
+        <div id="educationEntries"></div>
+        <button class="btn" type="button" onclick="addEducation()">Add Education Entry</button>
+        
+        <h3>Work/Research Experience</h3>
+        <div id="workEntries"></div>
+        <button class="btn" type="button" onclick="addWork()">Add Experience Entry</button>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn" type="button" onclick="previewCV()">Generate Preview</button>
+          <button class="btn" type="button" onclick="downloadCV()">Download CV</button>
+        </div>
+        <pre id="cvPreview" class="preview"></pre>
+      </div>
+
+      <!-- SOP Generator Tab -->
+      <div id="sop-tab" class="tab-content">
+        <h2>Statement of Purpose Generator</h2>
+        <div class="form-group">
+          <label for="sopName">Applicant Name</label>
+          <input type="text" id="sopName" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label for="targetProgram">Target Program</label>
+          <input type="text" id="targetProgram" placeholder="Program you are applying for">
+        </div>
+        <div class="form-group">
+          <label for="academicBg">Academic Background</label>
+          <textarea id="academicBg" placeholder="Brief summary of your academic background"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="researchExp">Research/Work Experience</label>
+          <textarea id="researchExp" placeholder="Relevant research or professional experiences"></textarea>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn" type="button" onclick="previewSOP()">Generate Preview</button>
+          <button class="btn" type="button" onclick="downloadSOP()">Download SOP</button>
+        </div>
+        <pre id="sopPreview" class="preview"></pre>
+      </div>
+
+      <!-- Scholarship Essay Generator Tab -->
+      <div id="scholarship-tab" class="tab-content">
+        <h2>Scholarship Essay Generator</h2>
+        <div class="form-group">
+          <label for="scholarName">Applicant Name</label>
+          <input type="text" id="scholarName" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label for="scholarshipName">Scholarship Name</label>
+          <input type="text" id="scholarshipName" placeholder="Name of the scholarship">
+        </div>
+        <div class="form-group">
+          <label for="achievements">Academic Achievements</label>
+          <textarea id="achievements" placeholder="List your academic achievements"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="scholarGoals">Career Goals</label>
+          <textarea id="scholarGoals" placeholder="Describe your future career goals"></textarea>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn" type="button" onclick="previewScholarshipEssay()">Generate Preview</button>
+          <button class="btn" type="button" onclick="downloadScholarshipEssay()">Download Scholarship Essay</button>
+        </div>
+        <pre id="scholarshipPreview" class="preview"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-section">
+    <div class="ad-placeholder">
+      <script type='text/javascript' src='//pl25916848.effectiveratecpm.com/27/93/86/279386b129cbf77bbb9f04a599a5e408.js'></script>
+    </div>
+    <div class="ad-placeholder"> 
+          https://nanoushaks.net/4/6204045
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 Scholarships Application Toolkit</p>
+  </footer>
+
+  <script>
+    // --- Tab Switching ---
+    function switchTab(tabName, btn) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(button => button.classList.remove('active'));
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // --- Academic CV Generator Helper ---
+    function getCVContent() {
+      let content = "";
+      content += "====================================\n";
+      content += document.getElementById('cvName').value.toUpperCase() + "\n";
+      content += document.getElementById('cvContact').value + "\n";
+      content += "====================================\n\n";
+
+      content += "EDUCATION\n";
+      content += "------------------------------------\n";
+      const eduEntries = document.querySelectorAll('#educationEntries .entry-group');
+      if (eduEntries.length) {
+        eduEntries.forEach(entry => {
+          content += "Degree: " + entry.querySelector('.degree').value + "\n";
+          content += "Institution: " + entry.querySelector('.institution').value + "\n";
+          content += "Dates: " + entry.querySelector('.dates').value + "\n\n";
+        });
+      } else {
+        content += "No education details provided.\n\n";
+      }
+
+      content += "WORK / RESEARCH EXPERIENCE\n";
+      content += "------------------------------------\n";
+      const workEntries = document.querySelectorAll('#workEntries .entry-group');
+      if (workEntries.length) {
+        workEntries.forEach(entry => {
+          content += "Position: " + entry.querySelector('.position').value + "\n";
+          content += "Company/Institution: " + entry.querySelector('.company').value + "\n";
+          content += "Dates: " + entry.querySelector('.workDates').value + "\n";
+          content += "Description: " + entry.querySelector('.workDesc').value + "\n\n";
+        });
+      } else {
+        content += "No work/experience details provided.\n";
+      }
+      content += "====================================\n";
+      content += "ADDITIONAL INFORMATION: [Include Honors, Publications, etc.]\n";
+      return content;
+    }
+
+    // --- SOP Generator Helper ---
+    function getSOPContent() {
+      let content = "";
+      content += "STATEMENT OF PURPOSE\n";
+      content += "====================================\n\n";
+
+      content += "Introduction:\n";
+      content += "My name is " + document.getElementById('sopName').value + ". ";
+      content += "I am passionate about pursuing the " + document.getElementById('targetProgram').value + " program, ";
+      content += "and I believe that my academic background and experiences have prepared me well for this journey.\n\n";
+
+      content += "Academic Background:\n";
+      content += document.getElementById('academicBg').value + "\n\n";
+
+      content += "Research / Work Experience:\n";
+      content += document.getElementById('researchExp').value + "\n\n";
+
+      content += "Future Goals:\n";
+      content += "I aspire to leverage the knowledge and skills acquired from this program to contribute meaningfully to my field. ";
+      content += "I am eager to engage in advanced research and professional practice, and I believe that your institution offers the ideal environment for my aspirations.\n\n";
+
+      content += "Thank you for considering my application.\n";
+      content += "====================================\n";
+      return content;
+    }
+
+    // --- Scholarship Essay Generator Helper ---
+    function getScholarshipEssayContent() {
+      let content = "";
+      content += "SCHOLARSHIP ESSAY\n";
+      content += "====================================\n\n";
+
+      content += "Introduction:\n";
+      content += "My name is " + document.getElementById('scholarName').value + " and I am applying for the " + document.getElementById('scholarshipName').value + " scholarship. ";
+      content += "I have consistently demonstrated academic excellence and a commitment to my chosen field.\n\n";
+
+      content += "Academic Achievements:\n";
+      content += document.getElementById('achievements').value + "\n\n";
+
+      content += "Career Goals:\n";
+      content += document.getElementById('scholarGoals').value + "\n\n";
+
+      content += "Conclusion:\n";
+      content += "This scholarship will empower me to further my education and make a significant impact in my field. ";
+      content += "Thank you for considering my application.\n";
+      content += "====================================\n";
+      return content;
+    }
+
+    // --- Preview Functions ---
+    function previewCV() {
+      const content = getCVContent();
+      document.getElementById('cvPreview').textContent = content;
+    }
+    function previewSOP() {
+      const content = getSOPContent();
+      document.getElementById('sopPreview').textContent = content;
+    }
+    function previewScholarshipEssay() {
+      const content = getScholarshipEssayContent();
+      document.getElementById('scholarshipPreview').textContent = content;
+    }
+
+    // --- Download Functions ---
+    function downloadCV() {
+      const content = getCVContent();
+      downloadFile(content, 'academic-cv.txt');
+    }
+    function downloadSOP() {
+      const content = getSOPContent();
+      downloadFile(content, 'statement-of-purpose.txt');
+    }
+    function downloadScholarshipEssay() {
+      const content = getScholarshipEssayContent();
+      downloadFile(content, 'scholarship-essay.txt');
+    }
+
+    // --- Dynamic Entry Functions for CV ---
+    function addEducation() {
+      const div = document.createElement('div');
+      div.className = 'entry-group';
+      div.innerHTML = `
+        <div class="form-group">
+          <label>Degree</label>
+          <input type="text" class="degree" placeholder="e.g., B.Sc. in Computer Science">
+        </div>
+        <div class="form-group">
+          <label>Institution</label>
+          <input type="text" class="institution" placeholder="e.g., University Name">
+        </div>
+        <div class="form-group">
+          <label>Dates</label>
+          <input type="text" class="dates" placeholder="e.g., 2018 - 2022">
+        </div>
+      `;
+      document.getElementById('educationEntries').appendChild(div);
+    }
+    function addWork() {
+      const div = document.createElement('div');
+      div.className = 'entry-group';
+      div.innerHTML = `
+        <div class="form-group">
+          <label>Position</label>
+          <input type="text" class="position" placeholder="e.g., Research Assistant">
+        </div>
+        <div class="form-group">
+          <label>Company / Institution</label>
+          <input type="text" class="company" placeholder="e.g., University or Company Name">
+        </div>
+        <div class="form-group">
+          <label>Dates</label>
+          <input type="text" class="workDates" placeholder="e.g., Summer 2021">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="workDesc" rows="3" placeholder="Describe your role and responsibilities"></textarea>
+        </div>
+      `;
+      document.getElementById('workEntries').appendChild(div);
+    }
+
+    // --- Generic Download Function ---
+    function downloadFile(content, fileName) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
+  </script>
+</body>
+</html>
