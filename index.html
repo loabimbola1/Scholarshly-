@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scholarship Application Toolkit</title>
+  <!-- Load the AdSense library required for AdMob ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <style>
+    /* Existing styles */
     * {
       margin: 0;
       padding: 0;
@@ -23,7 +26,7 @@
       color: white;
       padding: 1.5rem;
       text-align: center;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
     }
     .container {
       flex: 1;
@@ -35,24 +38,7 @@
       background: white;
       padding: 35px;
       border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-    .ad-section {
-      display: flex;
-      gap: 25px;
-      justify-content: center;
-      padding: 25px;
-      background: #f8f9fa;
-    }
-    .ad-placeholder {
-      width: 300px;
-      height: 250px;
-      background: #f1f3f5;
-      border: 2px dashed #dee2e6;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      color: #868e96;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
     .tab-buttons {
       display: flex;
@@ -71,11 +57,6 @@
     .tab-btn.active {
       background: #2c3e50;
       color: white;
-    }
-    .form-section {
-      margin-bottom: 2.5rem;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1.5rem;
     }
     .form-group {
       margin-bottom: 1.8rem;
@@ -135,8 +116,51 @@
       margin-top: 10px;
       white-space: pre-wrap;
     }
+    /* New AdMob Styles */
+    .ad-container {
+      width: 100%;
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+    .adaptive-banner {
+      width: 100%;
+      max-width: 728px;
+      height: 90px;
+    }
+    @media (min-width: 800px) {
+      .adaptive-banner {
+        height: 90px;
+      }
+    }
+    #interstitialModal button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: #333;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    #interstitialModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    #interstitialModal > div {
+      position: relative;
+      width: 320px;
+      height: 480px;
+      background: #fff;
+    }
     @media (max-width: 768px) {
-      .ad-section {
+      .ad-container {
         flex-direction: column;
         align-items: center;
       }
@@ -145,9 +169,14 @@
 </head>
 <body>
   <header class="header">
-    <h1>Scholarships Toolkit</h1>
-    <p>CV, SOP & Scholarship Essay Generator</p>
+    <h1>Scholarship Application Toolkit</h1>
+    <p>Academic CV, SOP & Scholarship Essay Generator</p>
   </header>
+
+  <!-- Button to trigger the interstitial ad -->
+  <div style="text-align:center; margin: 10px 0;">
+    <button class="btn" onclick="showInterstitialAd()">Show Interstitial Ad</button>
+  </div>
 
   <div class="container">
     <div class="main-content">
@@ -157,7 +186,7 @@
         <button class="tab-btn" onclick="switchTab('scholarship', this)">Scholarship Essay</button>
       </div>
 
-      <!-- CV Generator Tab -->
+      <!-- Academic CV Generator Tab -->
       <div id="cv-tab" class="tab-content active">
         <h2>Academic CV Generator</h2>
         <div class="form-group">
@@ -166,13 +195,13 @@
         </div>
         <div class="form-group">
           <label for="cvContact">Contact Information</label>
-          <input type="text" id="cvContact" placeholder="Address, phone, email">
+          <input type="text" id="cvContact" placeholder="Address, Phone, Email">
         </div>
         <h3>Education</h3>
         <div id="educationEntries"></div>
         <button class="btn" type="button" onclick="addEducation()">Add Education Entry</button>
         
-        <h3>Work/Research Experience</h3>
+        <h3>Work / Research Experience</h3>
         <div id="workEntries"></div>
         <button class="btn" type="button" onclick="addWork()">Add Experience Entry</button>
         
@@ -183,7 +212,7 @@
         <pre id="cvPreview" class="preview"></pre>
       </div>
 
-      <!-- SOP Generator Tab -->
+      <!-- Statement of Purpose Generator Tab -->
       <div id="sop-tab" class="tab-content">
         <h2>Statement of Purpose Generator</h2>
         <div class="form-group">
@@ -196,10 +225,10 @@
         </div>
         <div class="form-group">
           <label for="academicBg">Academic Background</label>
-          <textarea id="academicBg" placeholder="Brief summary of your academic background"></textarea>
+          <textarea id="academicBg" placeholder="Summary of your academic background"></textarea>
         </div>
         <div class="form-group">
-          <label for="researchExp">Research/Work Experience</label>
+          <label for="researchExp">Research / Work Experience</label>
           <textarea id="researchExp" placeholder="Relevant research or professional experiences"></textarea>
         </div>
         <div style="display: flex; gap: 10px; margin-top: 20px;">
@@ -237,29 +266,56 @@
     </div>
   </div>
 
-  <div class="ad-section">
-    <div class="ad-placeholder">
-      <script type='text/javascript' src='//pl25916848.effectiveratecpm.com/27/93/86/279386b129cbf77bbb9f04a599a5e408.js'></script>
-    </div>
-    <div class="ad-placeholder"> 
-          <script type="text/javascript">
-	atOptions = {
-		'key' : '12b69e4d8e6e7d5e1798052bf7e33b88',
-		'format' : 'iframe',
-		'height' : 300,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/12b69e4d8e6e7d5e1798052bf7e33b88/invoke.js"></script>
+  <!-- Updated Ad Section: Adaptive Banner Ad -->
+  <div class="ad-container">
+    <ins class="adsbygoogle adaptive-banner"
+         style="display:block"
+         data-ad-client="ca-app-pub-3940256099942544"
+         data-ad-slot="9214589741"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <!-- Updated Interstitial Modal -->
+  <div id="interstitialModal">
+    <div style="width: 320px; height: 480px; position: relative;">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:320px;height:480px"
+           data-ad-client="ca-app-pub-3940256099942544"
+           data-ad-slot="1033173712"></ins>
+      <button onclick="closeInterstitialAd()">✕</button>
     </div>
   </div>
 
   <footer class="footer">
-    <p>© 2025 Scholarships Application Toolkit</p>
+    <p>© 2025 Scholarshly - Scholarship Application Toolkit</p>
   </footer>
 
   <script>
+    // Initialize Adaptive Banner Ad on window load
+    window.addEventListener('load', () => {
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-app-pub-3940256099942544",
+        enable_page_level_ads: true,
+        overlays: {bottom: true}
+      });
+    });
+
+    // --- Interstitial Ad Functions ---
+    let interstitialRequested = false;
+    function showInterstitialAd() {
+      const modal = document.getElementById('interstitialModal');
+      modal.style.display = 'flex';
+      if (!interstitialRequested) {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        interstitialRequested = true;
+      }
+    }
+    function closeInterstitialAd() {
+      document.getElementById('interstitialModal').style.display = 'none';
+      interstitialRequested = false;
+    }
+
     // --- Tab Switching ---
     function switchTab(tabName, btn) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -275,7 +331,6 @@
       content += document.getElementById('cvName').value.toUpperCase() + "\n";
       content += document.getElementById('cvContact').value + "\n";
       content += "====================================\n\n";
-
       content += "EDUCATION\n";
       content += "------------------------------------\n";
       const eduEntries = document.querySelectorAll('#educationEntries .entry-group');
@@ -288,7 +343,6 @@
       } else {
         content += "No education details provided.\n\n";
       }
-
       content += "WORK / RESEARCH EXPERIENCE\n";
       content += "------------------------------------\n";
       const workEntries = document.querySelectorAll('#workEntries .entry-group');
@@ -312,22 +366,17 @@
       let content = "";
       content += "STATEMENT OF PURPOSE\n";
       content += "====================================\n\n";
-
       content += "Introduction:\n";
       content += "My name is " + document.getElementById('sopName').value + ". ";
-      content += "I am passionate about pursuing the " + document.getElementById('targetProgram').value + " program, ";
-      content += "and I believe that my academic background and experiences have prepared me well for this journey.\n\n";
-
+      content += "I am applying to the " + document.getElementById('targetProgram').value + " program. ";
+      content += "My academic and professional experiences have shaped my passion and readiness for graduate study.\n\n";
       content += "Academic Background:\n";
       content += document.getElementById('academicBg').value + "\n\n";
-
       content += "Research / Work Experience:\n";
       content += document.getElementById('researchExp').value + "\n\n";
-
       content += "Future Goals:\n";
       content += "I aspire to leverage the knowledge and skills acquired from this program to contribute meaningfully to my field. ";
-      content += "I am eager to engage in advanced research and professional practice, and I believe that your institution offers the ideal environment for my aspirations.\n\n";
-
+      content += "Your institution’s focus on research and innovation perfectly aligns with my career objectives.\n\n";
       content += "Thank you for considering my application.\n";
       content += "====================================\n";
       return content;
@@ -338,19 +387,15 @@
       let content = "";
       content += "SCHOLARSHIP ESSAY\n";
       content += "====================================\n\n";
-
       content += "Introduction:\n";
-      content += "My name is " + document.getElementById('scholarName').value + " and I am applying for the " + document.getElementById('scholarshipName').value + " scholarship. ";
-      content += "I have consistently demonstrated academic excellence and a commitment to my chosen field.\n\n";
-
+      content += "My name is " + document.getElementById('scholarName').value + " and I am honored to apply for the " + document.getElementById('scholarshipName').value + " scholarship. ";
+      content += "I have consistently demonstrated academic excellence and commitment to my field.\n\n";
       content += "Academic Achievements:\n";
       content += document.getElementById('achievements').value + "\n\n";
-
       content += "Career Goals:\n";
       content += document.getElementById('scholarGoals').value + "\n\n";
-
       content += "Conclusion:\n";
-      content += "This scholarship will empower me to further my education and make a significant impact in my field. ";
+      content += "Awarding me this scholarship will empower me to further my education and make a significant contribution to my field. ";
       content += "Thank you for considering my application.\n";
       content += "====================================\n";
       return content;
