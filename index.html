@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="google-adsense-account" content="ca-pub-4316477506557253">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scholarship Application Toolkit</title>
+  <title>Academic Scholarships Toolkit</title>
   <!-- Load the AdSense library required for AdMob ads -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <style>
@@ -169,13 +170,13 @@
 </head>
 <body>
   <header class="header">
-    <h1>Scholarship Application Toolkit</h1>
-    <p>Academic CV, SOP & Scholarship Essay Generator</p>
+    <h1>Academic Scholarships Toolkit</h1>
+    <p>CVs, SOPs & Scholarship Essays Generator</p>
   </header>
 
   <!-- Button to trigger the interstitial ad -->
   <div style="text-align:center; margin: 10px 0;">
-    <button class="btn" onclick="showInterstitialAd()">Show Interstitial Ad</button>
+    <button class="btn" onclick="showInterstitialAd()">Start Over</button>
   </div>
 
   <div class="container">
@@ -288,7 +289,12 @@
   </div>
 
   <footer class="footer">
-    <p>© 2025 Scholarshly - Scholarship Application Toolkit</p>
+    <p>© 2025 Scholarshly - Academic Scholarships Toolkit</p>
+    <p>
+      <a href="https://www.scholarshly.com/about" target="_blank" style="color: white; text-decoration: none;">About Us</a> | 
+      <a href="https://www.scholarshly.com/contact" target="_blank" style="color: white; text-decoration: none;">Contact Us</a> | 
+      <a href="https://www.scholarshly.com/privacy" target="_blank" style="color: white; text-decoration: none;">Privacy Policy</a>
+    </p>
   </footer>
 
   <script>
@@ -302,18 +308,16 @@
     });
 
     // --- Interstitial Ad Functions ---
-    let interstitialRequested = false;
     function showInterstitialAd() {
       const modal = document.getElementById('interstitialModal');
       modal.style.display = 'flex';
-      if (!interstitialRequested) {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        interstitialRequested = true;
-      }
+      // Wait 300ms to allow the modal to render and then push the ad request
+      setTimeout(() => {
+         (adsbygoogle = window.adsbygoogle || []).push({});
+      }, 300);
     }
     function closeInterstitialAd() {
       document.getElementById('interstitialModal').style.display = 'none';
-      interstitialRequested = false;
     }
 
     // --- Tab Switching ---
