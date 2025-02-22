@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJNPD6DPJ6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EJNPD6DPJ6');
+  </script>
   <!-- AdX Configuration: google.com, pub-4316477506557253, DIRECT, f08c47fec0942fa0 -->
   <meta name="google-adsense-account" content="ca-pub-4316477506557253">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -99,6 +107,11 @@
       padding: 1.5rem;
       font-size: 0.9rem;
     }
+    .footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 5px;
+    }
     .tab-content {
       display: none;
     }
@@ -117,6 +130,24 @@
       border: 1px solid #ccc;
       margin-top: 10px;
       white-space: pre-wrap;
+    }
+    /* Newsletter Section Styles */
+    .newsletter-section {
+      background: #fff;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .newsletter-section h2 {
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+    .newsletter-section p {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      color: #333;
     }
     /* AdMob Styles */
     .ad-container {
@@ -222,12 +253,12 @@
           <input type="text" id="sopName" placeholder="Your full name">
         </div>
         <div class="form-group">
-          <label for="targetProgram">Target Program</label>
+          <label for="targetProgram">Program Name</label>
           <input type="text" id="targetProgram" placeholder="Program you are applying for">
         </div>
         <div class="form-group">
           <label for="academicBg">Academic Background</label>
-          <textarea id="academicBg" placeholder="Brief overview of your academic background"></textarea>
+          <textarea id="academicBg" placeholder="Enter a brief overview of your academic background"></textarea>
         </div>
         <div class="form-group">
           <label for="researchExp">Research / Work Experience</label>
@@ -266,6 +297,14 @@
         <pre id="scholarshipPreview" class="preview"></pre>
       </div>
     </div>
+    
+    <!-- Scholarships Newsletter Section -->
+    <div class="newsletter-section">
+      <h2>Scholarships Newsletter</h2>
+      <p>Subscribe to receive the latest scholarship opportunities and study abroad tips.</p>
+      <script type="text/javascript" src="https://form.jotform.com/jsform/250522485389565"></script>
+    </div>
+    
   </div>
 
   <!-- Adaptive Banner Ad Section -->
@@ -292,9 +331,10 @@
   <footer class="footer">
     <p>© 2025 Scholarshly - Academic Scholarships Toolkit</p>
     <p>
-      <a href="https://www.scholarshly.com/about" target="_blank" style="color: white; text-decoration: none;">About Us</a> | 
-      <a href="https://www.scholarshly.com/contact" target="_blank" style="color: white; text-decoration: none;">Contact Us</a> | 
-      <a href="https://www.scholarshly.com/privacy" target="_blank" style="color: white; text-decoration: none;">Privacy Policy</a>
+      <a href="https://www.scholarshly.com/about" target="_blank">About Us</a> | 
+      <a href="https://www.scholarshly.com/contact" target="_blank">Contact Us</a> | 
+      <a href="https://www.scholarshly.com/privacy" target="_blank">Privacy Policy</a> | 
+      <a href="https://www.scholarshly.com/download" target="_blank">Download Now</a>
     </p>
   </footer>
 
@@ -367,25 +407,63 @@
 
     // Updated SOP Generator Helper (Standard for Study Abroad)
     function getSOPContent() {
-      let content = "";
-      content += "================ STATEMENT OF PURPOSE ================\n\n";
+      const name = document.getElementById('sopName').value;
+      const program = document.getElementById('targetProgram').value;
+      const academicBg = document.getElementById('academicBg').value;
+      const researchExp = document.getElementById('researchExp').value;
       
-      content += "Introduction:\n";
-      content += "I am " + document.getElementById('sopName').value + ", and I am applying to the " + document.getElementById('targetProgram').value + " program. ";
-      content += "My ambition is to study abroad and secure a scholarship that will enable me to excel academically and professionally.\n\n";
-      
-      content += "Academic Background & Research Experience:\n";
-      content += document.getElementById('academicBg').value + "\n";
-      content += document.getElementById('researchExp').value + "\n\n";
-      
-      content += "Motivation & Future Goals:\n";
-      content += "I am deeply motivated by the opportunity to broaden my academic horizons, gain international experience, and contribute to my field. ";
-      content += "This program aligns perfectly with my long-term career objectives, and I am eager to harness its opportunities to make a significant impact.\n\n";
-      
-      content += "Conclusion:\n";
-      content += "Thank you for considering my application. I am confident that my academic record and passion for learning make me an ideal candidate for this study abroad opportunity.\n";
-      content += "======================================================\n";
-      return content;
+      const sop = `[Admission Committee/University Name]
+[Department Name]
+[University Address]
+
+Subject: Statement of Purpose for ${program}
+
+Dear Members of the Admission Committee,
+
+I am writing to express my earnest intention to pursue ${program} at [University Name]. My name is ${name}, and I hold a [Your Current Degree] in [Your Field] from [Your University]. My academic journey in [Your Field] has fueled my ambition to [Your Long Term Goal], and I believe this program will provide the ideal platform to achieve my objectives.
+
+**Academic Background:**
+
+My academic foundation in [Your Field] was established through rigorous coursework in [Relevant Courses]. During my studies at [Your University], I developed a particular interest in [Specific Interest], which led me to undertake [Specific Project/Research]. This experience [Describe Impact/Learning].
+
+**Professional Motivation:**
+
+My decision to specialize in [Your Specialization] stems from [Personal Motivation/Experience]. I was particularly influenced by [Specific Event/Project/Person] which [Explain Impact]. This program's emphasis on [Program Strength] directly aligns with my research interests in [Research Interest].
+
+**Research Experience:**
+
+1. [Research Project Title]: ${researchExp}
+   - Key Findings: [Key Findings]
+   - Skills Developed: [Skills]
+
+2. [Thesis/Capstone Project]: [Project Details]
+   - Contribution: [Contribution]
+
+**Why This Program?**
+
+I am particularly drawn to [University Name] due to:
+- The groundbreaking work of Professor [Professor Name] in [Research Area]
+- The unique [Specific Facility/Course/Program Feature]
+- The interdisciplinary approach to [Program Focus]
+
+**Career Objectives:**
+
+Short-term: [Short Term Goal]
+Long-term: [Long Term Goal]
+
+This scholarship will enable me to [Specific Benefit 1] and [Specific Benefit 2]. I plan to contribute to the university community through [Planned Contributions].
+
+**Conclusion:**
+
+My combination of [Key Strength 1], [Key Strength 2], and [Key Strength 3] positions me to excel in this program. I am eager to collaborate with [University Name]'s academic community and contribute to [Department]'s mission of [Department Mission].
+
+Thank you for considering my application. I would be honored to join this prestigious program and contribute to its legacy of academic excellence.
+
+Sincerely,
+${name}
+[Contact Information]
+[Email] | [Phone] | [LinkedIn/Portfolio URL]`;
+      return sop;
     }
 
     // Updated Scholarship Essay Generator Helper (Formatted as Sample)
