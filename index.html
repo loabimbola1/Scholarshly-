@@ -9,7 +9,7 @@
   <!-- Load the AdSense library required for AdMob ads -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <style>
-    /* Existing styles */
+    /* Base Styles */
     * {
       margin: 0;
       padding: 0;
@@ -118,7 +118,7 @@
       margin-top: 10px;
       white-space: pre-wrap;
     }
-    /* New AdMob Styles */
+    /* AdMob Styles */
     .ad-container {
       width: 100%;
       margin: 20px 0;
@@ -172,10 +172,10 @@
 <body>
   <header class="header">
     <h1>Academic Scholarships Toolkit</h1>
-    <p>CVs, SOPs & Scholarship Essays Generator</p>
+    <p>Win Scholarships for Study Abroad by Creating a Convincing Application</p>
   </header>
 
-  <!-- Button to trigger the interstitial ad -->
+  <!-- Button to trigger the interstitial ad (used as a reset action) -->
   <div style="text-align:center; margin: 10px 0;">
     <button class="btn" onclick="showInterstitialAd()">Start Over</button>
   </div>
@@ -199,7 +199,7 @@
           <label for="cvContact">Contact Information</label>
           <input type="text" id="cvContact" placeholder="Address, Phone, Email">
         </div>
-        <h3>Education</h3>
+        <h3>Education & Training</h3>
         <div id="educationEntries"></div>
         <button class="btn" type="button" onclick="addEducation()">Add Education Entry</button>
         
@@ -227,11 +227,11 @@
         </div>
         <div class="form-group">
           <label for="academicBg">Academic Background</label>
-          <textarea id="academicBg" placeholder="Summary of your academic background"></textarea>
+          <textarea id="academicBg" placeholder="Brief overview of your academic background"></textarea>
         </div>
         <div class="form-group">
           <label for="researchExp">Research / Work Experience</label>
-          <textarea id="researchExp" placeholder="Relevant research or professional experiences"></textarea>
+          <textarea id="researchExp" placeholder="Highlight key research or professional experiences"></textarea>
         </div>
         <div style="display: flex; gap: 10px; margin-top: 20px;">
           <button class="btn" type="button" onclick="previewSOP()">Generate Preview</button>
@@ -248,8 +248,8 @@
           <input type="text" id="scholarName" placeholder="Your full name">
         </div>
         <div class="form-group">
-          <label for="scholarshipName">Scholarship Name</label>
-          <input type="text" id="scholarshipName" placeholder="Name of the scholarship">
+          <label for="scholarshipName">Scholarship Program</label>
+          <input type="text" id="scholarshipName" placeholder="Scholarship Program">
         </div>
         <div class="form-group">
           <label for="achievements">Academic Achievements</label>
@@ -268,7 +268,7 @@
     </div>
   </div>
 
-  <!-- Updated Ad Section: Adaptive Banner Ad -->
+  <!-- Adaptive Banner Ad Section -->
   <div class="ad-container">
     <ins class="adsbygoogle adaptive-banner"
          style="display:block"
@@ -278,7 +278,7 @@
          data-full-width-responsive="true"></ins>
   </div>
 
-  <!-- Updated Interstitial Modal -->
+  <!-- Interstitial Modal -->
   <div id="interstitialModal">
     <div style="width: 320px; height: 480px; position: relative;">
       <ins class="adsbygoogle"
@@ -308,11 +308,10 @@
       });
     });
 
-    // --- Interstitial Ad Functions ---
+    // Interstitial Ad Functions
     function showInterstitialAd() {
       const modal = document.getElementById('interstitialModal');
       modal.style.display = 'flex';
-      // Wait 300ms to allow the modal to render and then push the ad request
       setTimeout(() => {
          (adsbygoogle = window.adsbygoogle || []).push({});
       }, 300);
@@ -321,7 +320,7 @@
       document.getElementById('interstitialModal').style.display = 'none';
     }
 
-    // --- Tab Switching ---
+    // Tab Switching Function
     function switchTab(tabName, btn) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(button => button.classList.remove('active'));
@@ -329,84 +328,91 @@
       btn.classList.add('active');
     }
 
-    // --- Academic CV Generator Helper ---
+    // Updated CV Generator Helper (Europass-style Template)
     function getCVContent() {
       let content = "";
-      content += "====================================\n";
-      content += document.getElementById('cvName').value.toUpperCase() + "\n";
-      content += document.getElementById('cvContact').value + "\n";
-      content += "====================================\n\n";
-      content += "EDUCATION\n";
-      content += "------------------------------------\n";
+      content += "================ PERSONAL INFORMATION ================\n";
+      content += "Full Name: " + document.getElementById('cvName').value.toUpperCase() + "\n";
+      content += "Contact: " + document.getElementById('cvContact').value + "\n";
+      content += "======================================================\n\n";
+      
+      content += "================ EDUCATION & TRAINING ================\n";
       const eduEntries = document.querySelectorAll('#educationEntries .entry-group');
       if (eduEntries.length) {
         eduEntries.forEach(entry => {
-          content += "Degree: " + entry.querySelector('.degree').value + "\n";
-          content += "Institution: " + entry.querySelector('.institution').value + "\n";
-          content += "Dates: " + entry.querySelector('.dates').value + "\n\n";
+          content += "• Degree: " + entry.querySelector('.degree').value + "\n";
+          content += "  Institution: " + entry.querySelector('.institution').value + "\n";
+          content += "  Dates: " + entry.querySelector('.dates').value + "\n\n";
         });
       } else {
         content += "No education details provided.\n\n";
       }
-      content += "WORK / RESEARCH EXPERIENCE\n";
-      content += "------------------------------------\n";
+      
+      content += "============= WORK / RESEARCH EXPERIENCE =============\n";
       const workEntries = document.querySelectorAll('#workEntries .entry-group');
       if (workEntries.length) {
         workEntries.forEach(entry => {
-          content += "Position: " + entry.querySelector('.position').value + "\n";
-          content += "Company/Institution: " + entry.querySelector('.company').value + "\n";
-          content += "Dates: " + entry.querySelector('.workDates').value + "\n";
-          content += "Description: " + entry.querySelector('.workDesc').value + "\n\n";
+          content += "• Position: " + entry.querySelector('.position').value + "\n";
+          content += "  Organization: " + entry.querySelector('.company').value + "\n";
+          content += "  Dates: " + entry.querySelector('.workDates').value + "\n";
+          content += "  Description: " + entry.querySelector('.workDesc').value + "\n\n";
         });
       } else {
         content += "No work/experience details provided.\n";
       }
-      content += "====================================\n";
-      content += "ADDITIONAL INFORMATION: [Include Honors, Publications, etc.]\n";
+      content += "======================================================\n";
+      content += "Additional Information: [Honors, Publications, etc.]\n";
       return content;
     }
 
-    // --- SOP Generator Helper ---
+    // Updated SOP Generator Helper (Standard for Study Abroad)
     function getSOPContent() {
       let content = "";
-      content += "STATEMENT OF PURPOSE\n";
-      content += "====================================\n\n";
+      content += "================ STATEMENT OF PURPOSE ================\n\n";
+      
       content += "Introduction:\n";
-      content += "My name is " + document.getElementById('sopName').value + ". ";
-      content += "I am applying to the " + document.getElementById('targetProgram').value + " program. ";
-      content += "My academic and professional experiences have shaped my passion and readiness for graduate study.\n\n";
-      content += "Academic Background:\n";
-      content += document.getElementById('academicBg').value + "\n\n";
-      content += "Research / Work Experience:\n";
+      content += "I am " + document.getElementById('sopName').value + ", and I am applying to the " + document.getElementById('targetProgram').value + " program. ";
+      content += "My ambition is to study abroad and secure a scholarship that will enable me to excel academically and professionally.\n\n";
+      
+      content += "Academic Background & Research Experience:\n";
+      content += document.getElementById('academicBg').value + "\n";
       content += document.getElementById('researchExp').value + "\n\n";
-      content += "Future Goals:\n";
-      content += "I aspire to leverage the knowledge and skills acquired from this program to contribute meaningfully to my field. ";
-      content += "Your institution’s focus on research and innovation perfectly aligns with my career objectives.\n\n";
-      content += "Thank you for considering my application.\n";
-      content += "====================================\n";
-      return content;
-    }
-
-    // --- Scholarship Essay Generator Helper ---
-    function getScholarshipEssayContent() {
-      let content = "";
-      content += "SCHOLARSHIP ESSAY\n";
-      content += "====================================\n\n";
-      content += "Introduction:\n";
-      content += "My name is " + document.getElementById('scholarName').value + " and I am honored to apply for the " + document.getElementById('scholarshipName').value + " scholarship. ";
-      content += "I have consistently demonstrated academic excellence and commitment to my field.\n\n";
-      content += "Academic Achievements:\n";
-      content += document.getElementById('achievements').value + "\n\n";
-      content += "Career Goals:\n";
-      content += document.getElementById('scholarGoals').value + "\n\n";
+      
+      content += "Motivation & Future Goals:\n";
+      content += "I am deeply motivated by the opportunity to broaden my academic horizons, gain international experience, and contribute to my field. ";
+      content += "This program aligns perfectly with my long-term career objectives, and I am eager to harness its opportunities to make a significant impact.\n\n";
+      
       content += "Conclusion:\n";
-      content += "Awarding me this scholarship will empower me to further my education and make a significant contribution to my field. ";
-      content += "Thank you for considering my application.\n";
-      content += "====================================\n";
+      content += "Thank you for considering my application. I am confident that my academic record and passion for learning make me an ideal candidate for this study abroad opportunity.\n";
+      content += "======================================================\n";
       return content;
     }
 
-    // --- Preview Functions ---
+    // Updated Scholarship Essay Generator Helper (Formatted as Sample)
+    function getScholarshipEssayContent() {
+      const name = document.getElementById('scholarName').value;
+      const field = document.getElementById('scholarshipName').value;
+      const achievements = document.getElementById('achievements').value;
+      const goals = document.getElementById('scholarGoals').value;
+      const essay = `Dear Scholarship Committee,
+
+I am writing to apply for the ${field} Scholarship Program. My name is ${name}, and I have consistently demonstrated academic excellence and leadership potential throughout my educational journey.
+
+My academic achievements include:
+${achievements}
+
+These accomplishments reflect my dedication to ${field} and my commitment to academic excellence. My career goals are centered around ${goals}, and this scholarship would provide crucial support as I pursue these objectives.
+
+I am particularly proud of my ability to combine theoretical knowledge with practical applications. For instance, [EXAMPLE HERE]. This experience has strengthened my resolve to [GOAL HERE].
+
+In conclusion, I believe I am an ideal candidate for this scholarship because of my academic record, passion for ${field}, and clear vision for my future career. Thank you for considering my application.
+
+Sincerely,
+${name}`;
+      return essay;
+    }
+
+    // Preview Functions
     function previewCV() {
       const content = getCVContent();
       document.getElementById('cvPreview').textContent = content;
@@ -420,7 +426,7 @@
       document.getElementById('scholarshipPreview').textContent = content;
     }
 
-    // --- Download Functions ---
+    // Download Functions
     function downloadCV() {
       const content = getCVContent();
       downloadFile(content, 'academic-cv.txt');
@@ -434,7 +440,7 @@
       downloadFile(content, 'scholarship-essay.txt');
     }
 
-    // --- Dynamic Entry Functions for CV ---
+    // Dynamic Entry Functions for CV
     function addEducation() {
       const div = document.createElement('div');
       div.className = 'entry-group';
@@ -478,7 +484,7 @@
       document.getElementById('workEntries').appendChild(div);
     }
 
-    // --- Generic Download Function ---
+    // Generic Download Function
     function downloadFile(content, fileName) {
       const blob = new Blob([content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
